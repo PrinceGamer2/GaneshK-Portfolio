@@ -9,18 +9,34 @@ import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 
 export default function Home() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const SCRUB_DISTANCE = 500; // vh
+  const [animProgress, setAnimProgress] = useState(0);
+  const [isHeroVisible, setIsHeroVisible] = useState(false);
+  
+  // The total scroll distance for the sticky intro section (in vh)
+  const INTRO_SCROLL_HEIGHT = 800; 
+  // Percentage of the scroll height dedicated to the background frame animation
+  const ANIMATION_END_THRESHOLD = 0.7; 
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const winHeight = window.innerHeight;
-      const totalScrubPx = (SCRUB_DISTANCE * winHeight) / 100 - winHeight;
+      
+      // Calculate total pixels available for scrubbing in the intro container
+      const totalScrubPx = (INTRO_SCROLL_HEIGHT * winHeight) / 100 - winHeight;
       
       if (totalScrubPx > 0) {
-        const progress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
-        setScrollProgress(progress);
+        // Absolute progress from 0 to 1 within the intro section
+        const totalProgress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
+        
+        // Calculate the scrubbing progress for the 163 frames
+        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD
+        const scrubbing = Math.min(1, totalProgress / ANIMATION_END_THRESHOLD);
+        setAnimProgress(scrubbing);
+
+        // Show hero content only after the animation is almost complete
+        // and keep it visible throughout the "hold" phase (70% to 100%)
+        setIsHeroVisible(totalProgress >= ANIMATION_END_THRESHOLD - 0.05);
       }
     };
 
@@ -44,15 +60,15 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Intro Section with pinned animation */}
-      <section className="relative h-[500vh]">
+      {/* Intro Section with pinned animation and hero text */}
+      <section className={`relative h-[${INTRO_SCROLL_HEIGHT}vh]`}>
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <ParallaxBackground scrubProgress={scrollProgress} />
-          <Hero isVisible={scrollProgress >= 0.95} />
+          <ParallaxBackground scrubProgress={animProgress} />
+          <Hero isVisible={isHeroVisible} />
         </div>
       </section>
       
-      {/* Content Section revealed after intro */}
+      {/* Content Section revealed after the long "hold" intro */}
       <div className="relative z-20 bg-background border-t border-white/5 shadow-[0_-100px_100px_rgba(0,0,0,0.8)]">
         <div id="tech">
           <TechStack />
