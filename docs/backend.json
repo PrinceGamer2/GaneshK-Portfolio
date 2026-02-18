@@ -1,0 +1,432 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents the core profile information for Prince Ganesh K's single-page portfolio, including personal details, contact information, and global UI settings.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the portfolio owner."
+        },
+        "smallIntro": {
+          "type": "string",
+          "description": "The short introductory phrase displayed in the hero section, e.g., 'The Future of Digital Efficiency'."
+        },
+        "mainTitle": {
+          "type": "string",
+          "description": "The prominent, two-line main title displayed in the hero section, e.g., 'PRINCE GANESH'."
+        },
+        "subheadline": {
+          "type": "string",
+          "description": "A secondary headline or tagline displayed under the main title, e.g., 'Engineering Growth Through Intelligence & Leadership.'."
+        },
+        "paragraph": {
+          "type": "string",
+          "description": "The main descriptive paragraph providing an overview of the user's expertise and background."
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "The user's contact phone number, e.g., '+91 6268 544601'."
+        },
+        "email": {
+          "type": "string",
+          "description": "The user's professional email address.",
+          "format": "email"
+        },
+        "heroParallaxBackgroundUrl": {
+          "type": "string",
+          "description": "The URL for the full-screen WebP parallax image sequence used as the hero section background.",
+          "format": "uri"
+        },
+        "heroParallaxFrameCount": {
+          "type": "number",
+          "description": "The total number of frames in the hero section's parallax background sequence."
+        },
+        "primaryAccentColor": {
+          "type": "string",
+          "description": "Hex code for the primary accent color, e.g., '#FF5733' (Vibrant Orange)."
+        },
+        "secondaryAccentColor": {
+          "type": "string",
+          "description": "Hex code for the secondary accent color, used to complement the primary, e.g., '#D68963' (Desaturated Orange)."
+        },
+        "backgroundColor": {
+          "type": "string",
+          "description": "Hex code for the overall dark cinematic background color, e.g., '#211F29' (Dark desaturated purple)."
+        },
+        "fontFamily": {
+          "type": "string",
+          "description": "The primary font family used for text throughout the portfolio, e.g., 'Inter'."
+        },
+        "lastUpdatedAt": {
+          "type": "string",
+          "description": "Timestamp indicating the last time this profile's content was updated.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "smallIntro",
+        "mainTitle",
+        "subheadline",
+        "paragraph",
+        "phoneNumber",
+        "email",
+        "heroParallaxBackgroundUrl",
+        "heroParallaxFrameCount",
+        "primaryAccentColor",
+        "secondaryAccentColor",
+        "backgroundColor",
+        "fontFamily",
+        "lastUpdatedAt"
+      ]
+    },
+    "SkillIndicator": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "SkillIndicator",
+      "type": "object",
+      "description": "Represents a distinct skill displayed as an indicator in the hero section of the portfolio.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the SkillIndicator entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N SkillIndicator)"
+        },
+        "order": {
+          "type": "number",
+          "description": "The numeric order in which the skill indicator should be displayed."
+        },
+        "title": {
+          "type": "string",
+          "description": "The title of the skill, e.g., 'AI Automation'."
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "order",
+        "title"
+      ]
+    },
+    "Experience": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Experience",
+      "type": "object",
+      "description": "Details a specific professional or leadership experience, including roles, organizations, and key responsibilities.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Experience entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Experience)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The job title or role held, e.g., 'Vice President' or 'Social Media Team Head'."
+        },
+        "organization": {
+          "type": "string",
+          "description": "The name of the organization or institution, e.g., 'Digitopedia | Presidency University'."
+        },
+        "startDate": {
+          "type": "string",
+          "description": "The start date of the experience.",
+          "format": "date"
+        },
+        "endDate": {
+          "type": "string",
+          "description": "The end date of the experience, or 'Present' if ongoing. Can be null if ongoing.",
+          "format": "date"
+        },
+        "descriptionPoints": {
+          "type": "array",
+          "description": "An array of bullet points describing key responsibilities or achievements within this role.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "organization",
+        "startDate",
+        "descriptionPoints"
+      ]
+    },
+    "TechnicalStackItem": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "TechnicalStackItem",
+      "type": "object",
+      "description": "Represents an individual item or category within the user's technical stack, as displayed in a 4-box grid.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the TechnicalStackItem entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N TechnicalStackItem)"
+        },
+        "title": {
+          "type": "string",
+          "description": "The main title of the technical stack item, e.g., 'SEO & Growth'."
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description or area of expertise related to this stack item, e.g., 'Specialized in organic visibility and data-driven impact.'."
+        },
+        "tools": {
+          "type": "array",
+          "description": "An array of specific tools or platforms associated with this technical skill, e.g., ['N8N', 'Make'].",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "description"
+      ]
+    },
+    "Certification": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Certification",
+      "type": "object",
+      "description": "Stores details about professional certifications obtained by the user.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Certification entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Certification)"
+        },
+        "name": {
+          "type": "string",
+          "description": "The full name of the certification, e.g., 'Write to Sell Like a Pro'."
+        },
+        "issuingOrganization": {
+          "type": "string",
+          "description": "The organization or institution that issued the certification."
+        },
+        "issueDate": {
+          "type": "string",
+          "description": "The date when the certification was issued.",
+          "format": "date"
+        },
+        "credentialId": {
+          "type": "string",
+          "description": "An optional unique identifier or code for the credential, if available for verification."
+        },
+        "credentialUrl": {
+          "type": "string",
+          "description": "An optional URL where the credential can be viewed or verified.",
+          "format": "uri"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "name",
+        "issuingOrganization",
+        "issueDate"
+      ]
+    },
+    "Achievement": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "Achievement",
+      "type": "object",
+      "description": "Records notable accomplishments or awards separate from specific job responsibilities.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Achievement entity."
+        },
+        "userId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N Achievement)"
+        },
+        "title": {
+          "type": "string",
+          "description": "A concise title or summary of the achievement."
+        },
+        "description": {
+          "type": "string",
+          "description": "A detailed description providing context and impact of the achievement."
+        },
+        "date": {
+          "type": "string",
+          "description": "The date when the achievement was accomplished or awarded.",
+          "format": "date"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "title",
+        "description",
+        "date"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/adminRoles/{adminId}",
+        "definition": {
+          "entityName": "adminRole",
+          "schema": {
+            "$ref": "#/backend/entities/adminRole"
+          },
+          "description": "Used for Database Access Control (DBAC). The existence of a document at this path indicates that the `{adminId}` (Firebase Auth UID) possesses administrative privileges. This allows admin-only write access to the portfolio content. The document itself can be empty or contain minimal role information. This entity is implicit as a schema definition for 'adminRole' was not provided, but its reference is included as required by the output schema.",
+          "params": [
+            {
+              "name": "adminId",
+              "description": "The Firebase Authentication UID of the user designated as an administrator for the portfolio. This will be Prince Ganesh K's UID."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "The main profile document for Prince Ganesh K. The `{userId}` is the Firebase Authentication UID of the portfolio owner/administrator. This document contains global portfolio settings and personal information. It includes denormalized 'id' and 'userId' implicitly via its document ID for authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator (Prince Ganesh K)."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}/skillIndicators/{skillIndicatorId}",
+        "definition": {
+          "entityName": "SkillIndicator",
+          "schema": {
+            "$ref": "#/backend/entities/SkillIndicator"
+          },
+          "description": "Collection of skill indicators displayed in the hero section. Each document includes denormalized 'userId' (matching the parent 'userId') for explicit ownership and authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator."
+            },
+            {
+              "name": "skillIndicatorId",
+              "description": "Unique identifier for a specific skill indicator."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}/experiences/{experienceId}",
+        "definition": {
+          "entityName": "Experience",
+          "schema": {
+            "$ref": "#/backend/entities/Experience"
+          },
+          "description": "Collection of professional and leadership experiences. Each document includes denormalized 'userId' (matching the parent 'userId') for explicit ownership and authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator."
+            },
+            {
+              "name": "experienceId",
+              "description": "Unique identifier for a specific experience entry."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}/technicalStackItems/{technicalStackItemId}",
+        "definition": {
+          "entityName": "TechnicalStackItem",
+          "schema": {
+            "$ref": "#/backend/entities/TechnicalStackItem"
+          },
+          "description": "Collection of technical stack items, forming the 4-box grid. Each document includes denormalized 'userId' (matching the parent 'userId') for explicit ownership and authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator."
+            },
+            {
+              "name": "technicalStackItemId",
+              "description": "Unique identifier for a specific technical stack item."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}/certifications/{certificationId}",
+        "definition": {
+          "entityName": "Certification",
+          "schema": {
+            "$ref": "#/backend/entities/Certification"
+          },
+          "description": "Collection of professional certifications obtained. Each document includes denormalized 'userId' (matching the parent 'userId') for explicit ownership and authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator."
+            },
+            {
+              "name": "certificationId",
+              "description": "Unique identifier for a specific certification."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/userProfiles/{userId}/achievements/{achievementId}",
+        "definition": {
+          "entityName": "Achievement",
+          "schema": {
+            "$ref": "#/backend/entities/Achievement"
+          },
+          "description": "Collection of notable accomplishments and awards. Each document includes denormalized 'userId' (matching the parent 'userId') for explicit ownership and authorization independence.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The Firebase Authentication UID of the portfolio owner/administrator."
+            },
+            {
+              "name": "achievementId",
+              "description": "Unique identifier for a specific achievement."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "This Firestore structure is designed to support a single-page portfolio for Prince Ganesh K, with public read access and exclusive admin write access. The core principle for secure and debuggable rules is **Authorization Independence via Denormalization** and **Structural Segregation**.\n\n1.  **Admin Role Management:** A top-level collection `/adminRoles` is introduced. A document in this collection, whose ID is the Firebase Authentication UID of the portfolio administrator (Prince Ganesh K), signifies administrative privileges. This follows the **DBAC (Database Access Control)** principle, storing roles directly in the database and allowing rules to check for document existence (`exists(/databases/$(database)/documents/adminRoles/$(request.auth.uid))`) for authorization, without custom claims.\n\n2.  **UserProfile as the Root:** The primary `UserProfile` document is stored at `/userProfiles/{userId}`. Critically, `{userId}` will be the Firebase Authentication UID of the administrator (Prince Ganesh K). This directly embeds the administrator's identity into the top-level path, enabling robust, path-based security rules.\n\n3.  **Hierarchical Subcollections for Portfolio Content:** All dynamic content related to the portfolio (SkillIndicators, Experiences, TechnicalStackItems, Certifications, Achievements) are stored as subcollections under the specific `UserProfile` document: `/userProfiles/{userId}/<collectionName>/{documentId}`.\n\n    *   **Authorization Independence:** The `userId` (admin's UID) is present in every path segment, from the `userProfiles` collection down to the individual content documents. Furthermore, each subcollection document (e.g., `SkillIndicator`, `Experience`) explicitly contains a `userId` field that references its parent `UserProfile`'s ID. This denormalization ensures that authorization rules for any document or subcollection can directly refer to `request.auth.uid` and compare it against the `userId` in the path or the `userId` field within the document itself, without relying on `get()` calls to parent documents. This makes transactions and batch writes atomic and rules significantly simpler and more performant.\n\n    *   **QAPs (Secure List Operations):** All portfolio data (UserProfile and its subcollections) is publicly readable. This allows `list` operations (e.g., fetching all `Certifications` for Prince Ganesh K) to be performed by any client without requiring complex rule-based filtering, as the data is already segregated by the `userId` in the path. For admin operations, authenticated requests matching the `{userId}` in the path (and verified against `/adminRoles`) can perform `list` operations securely to manage all content related to their profile."
+  }
+}

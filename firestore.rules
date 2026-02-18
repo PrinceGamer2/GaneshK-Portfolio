@@ -1,0 +1,148 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    /**
+     * CORE PHILOSOPHY
+     * This ruleset implements a Public-Read, Admin-Write security model for a professional portfolio. 
+     * It leverages Database Access Control (DBAC) through a dedicated /adminRoles collection to 
+     * identify the portfolio owner.
+     *
+     * DATA STRUCTURE
+     * The data is organized hierarchically under /userProfiles/{userId}. All portfolio content 
+     * (Certifications, Experiences, etc.) exists as subcollections of a specific user profile.
+     *
+     * KEY SECURITY DECISIONS
+     * 1. Public Visibility: All portfolio content is publicly readable to allow for unauthenticated 
+     *    viewing of the portfolio site.
+     * 2. DBAC Authorization: Write access is strictly limited to users who are both the owner of 
+     *    the specific profile path (matching UIDs) and present in the /adminRoles collection.
+     * 3. Relational Integrity: The rules enforce that documents created within a user's tree 
+     *    must contain a 'userId' field matching that user's ID to ensure data consistency.
+     * 4. Structural Segregation: Administrative roles are kept in a top-level collection 
+     *    isolated from the content.
+     *
+     * DENORMALIZATION FOR AUTHORIZATION
+     * To ensure high performance and avoid deep recursive 'get' calls, the 'userId' is 
+     * denormalized into every subcollection document. This allows the rules to validate 
+     * ownership directly against the document's own data and the request's authentication context.
+     */
+
+    // --- Global Helper Functions ---
+
+    /** Checks if the request is from an authenticated user. */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /** Checks if the authenticated user's UID matches the provided userId. */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /** Checks if a specific UID exists in the adminRoles collection. */
+    function isAdmin(userId) {
+      return exists(/databases/$(database)/documents/adminRoles/$(userId));
+    }
+
+    /** Combines ownership and admin status for write operations. */
+    function isAuthorizedAdmin(userId) {
+      return isOwner(userId) && isAdmin(userId);
+    }
+
+    /** Verifies that a document exists for update or delete operations. */
+    function isExistingDoc() {
+      return resource != null;
+    }
+
+    // --- Collection Rules ---
+
+    /**
+     * @description Rules for the admin roles registry. Existence of a UID here grants write access.
+     * @path /adminRoles/{adminId}
+     * @allow get: if isSignedIn();
+     * @deny list: Always denied to prevent user enumeration.
+     * @principle Restricts administrative role management to platform-level control.
+     */
+    match /adminRoles/{adminId} {
+      allow get: if isSignedIn();
+      allow list: if false;
+      allow create, update, delete: if false; // Managed via Firebase Console or CLI
+    }
+
+    /**
+     * @description Rules for the root UserProfile document.
+     * @path /userProfiles/{userId}
+     * @allow get, list: if true; (Public portfolio visibility)
+     * @allow create: if isAuthorizedAdmin(userId) && request.resource.data.id == userId;
+     * @deny update: if request.auth.uid != userId;
+     * @principle Enforces that users can only create/edit their own authorized profile.
+     */
+    match /userProfiles/{userId} {
+      allow get, list: if true;
+      allow create: if isAuthorizedAdmin(userId) && request.resource.data.id == userId;
+      allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.id == resource.data.id;
+      allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+
+      /**
+       * @description Rules for SkillIndicator subcollection.
+       * @path /userProfiles/{userId}/skillIndicators/{id}
+       * @allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+       * @principle Validates relational integrity between the subcollection and parent profile.
+       */
+      match /skillIndicators/{skillIndicatorId} {
+        allow get, list: if true;
+        allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+        allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.userId == resource.data.userId;
+        allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+      }
+
+      /**
+       * @description Rules for Experience subcollection.
+       * @path /userProfiles/{userId}/experiences/{id}
+       * @allow update: if isAuthorizedAdmin(userId) && existing record's userId is immutable.
+       */
+      match /experiences/{experienceId} {
+        allow get, list: if true;
+        allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+        allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.userId == resource.data.userId;
+        allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+      }
+
+      /**
+       * @description Rules for TechnicalStackItem subcollection.
+       * @path /userProfiles/{userId}/technicalStackItems/{id}
+       */
+      match /technicalStackItems/{technicalStackItemId} {
+        allow get, list: if true;
+        allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+        allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.userId == resource.data.userId;
+        allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+      }
+
+      /**
+       * @description Rules for Certification subcollection.
+       * @path /userProfiles/{userId}/certifications/{id}
+       * @allow create: Prince (UID: 'abc') creates a cert under /userProfiles/abc/certifications/123.
+       * @deny update: Someone else tries to change the 'userId' field of a certification.
+       */
+      match /certifications/{certificationId} {
+        allow get, list: if true;
+        allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+        allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.userId == resource.data.userId;
+        allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+      }
+
+      /**
+       * @description Rules for Achievement subcollection.
+       * @path /userProfiles/{userId}/achievements/{id}
+       */
+      match /achievements/{achievementId} {
+        allow get, list: if true;
+        allow create: if isAuthorizedAdmin(userId) && request.resource.data.userId == userId;
+        allow update: if isAuthorizedAdmin(userId) && isExistingDoc() && request.resource.data.userId == resource.data.userId;
+        allow delete: if isAuthorizedAdmin(userId) && isExistingDoc();
+      }
+    }
+  }
+}
