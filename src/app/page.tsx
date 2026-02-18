@@ -12,7 +12,7 @@ export default function Home() {
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   
   // The total scroll distance for the sticky intro section (in vh)
-  const INTRO_SCROLL_HEIGHT = 800; 
+  const INTRO_SCROLL_HEIGHT = 400; 
   // Percentage of the scroll height dedicated to the background frame animation (0.7 = 70%)
   const ANIMATION_END_THRESHOLD = 0.7; 
 
