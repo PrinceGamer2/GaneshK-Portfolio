@@ -1,3 +1,10 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-parallax-base",
+      "description": "Base frame for the cinematic parallax sequence",
+      "imageUrl": "https://iassbuoisrzfkqjvddai.supabase.co/storage/v1/object/public/My%20Video/frame_000_delay-0.042s.webp",
+      "imageHint": "cinematic technology"
+    }
+  ]
 }
