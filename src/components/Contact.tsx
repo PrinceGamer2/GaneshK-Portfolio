@@ -32,13 +32,13 @@ export default function Contact() {
               </a>
               <div className="hidden md:block w-px h-12 bg-white/10"></div>
               <a 
-                href="mailto:contact@ganeshk.ai" 
+                href="mailto:gamerprince2.0@gmail.com" 
                 className="flex items-center gap-3 text-2xl font-bold hover:text-primary transition-colors group"
               >
                 <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20">
                   <Mail className="w-6 h-6 text-primary" />
                 </div>
-                contact@ganeshk.ai
+                gamerprince2.0@gmail.com
               </a>
             </div>
 
