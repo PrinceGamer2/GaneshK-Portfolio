@@ -15,21 +15,28 @@ export default function Home() {
           <nav className="hidden md:flex items-center gap-8">
             <a href="#experience" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
             <a href="#tech" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
-            <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-primary">Hire Me</a>
+            <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-primary border border-primary/50 px-4 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
         </div>
       </header>
 
-      {/* Intro Section: Animation + Hero pinned for 400vh of scroll */}
-      <section className="relative h-[400vh]">
+      {/* 
+        Intro Section: 
+        Pins the hero and background for 500vh of scroll.
+        The animation scrubs from 0% to 100% within this space.
+      */}
+      <section className="relative h-[500vh]">
         <div className="sticky top-0 h-screen w-full overflow-hidden">
-          <ParallaxBackground scrubDistance={400} />
+          <ParallaxBackground scrubDistance={500} />
           <Hero />
         </div>
       </section>
       
-      {/* Content Section: This scrolls up after the intro is done */}
-      <div className="relative z-20 bg-background shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+      {/* 
+        Content Section: 
+        Revealed only after the intro animation completes.
+      */}
+      <div className="relative z-20 bg-background border-t border-white/5 shadow-[0_-100px_100px_rgba(0,0,0,0.8)]">
         <div id="tech">
           <TechStack />
         </div>
@@ -41,6 +48,10 @@ export default function Home() {
         <div id="contact">
           <Contact />
         </div>
+
+        <footer className="py-12 border-t border-white/5 text-center text-muted-foreground text-xs font-mono tracking-widest uppercase">
+          Built with Precision • 2025
+        </footer>
       </div>
     </main>
   );
