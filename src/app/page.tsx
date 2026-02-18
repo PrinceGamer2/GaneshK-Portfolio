@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -14,7 +13,7 @@ export default function Home() {
   
   // The total scroll distance for the sticky intro section (in vh)
   const INTRO_SCROLL_HEIGHT = 800; 
-  // Percentage of the scroll height dedicated to the background frame animation
+  // Percentage of the scroll height dedicated to the background frame animation (0.7 = 70%)
   const ANIMATION_END_THRESHOLD = 0.7; 
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function Home() {
         const totalProgress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
         
         // Calculate the scrubbing progress for the 163 frames
-        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD
+        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD (70% scroll)
         const scrubbing = Math.min(1, totalProgress / ANIMATION_END_THRESHOLD);
         setAnimProgress(scrubbing);
 
@@ -61,8 +60,11 @@ export default function Home() {
       </header>
 
       {/* Intro Section with pinned animation and hero text */}
-      <section className={`relative h-[${INTRO_SCROLL_HEIGHT}vh]`}>
-        <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <section 
+        className="relative" 
+        style={{ height: `${INTRO_SCROLL_HEIGHT}vh` }}
+      >
+        <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
           <ParallaxBackground scrubProgress={animProgress} />
           <Hero isVisible={isHeroVisible} />
         </div>
