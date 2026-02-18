@@ -1,7 +1,9 @@
+
 "use client"
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Cpu, Search, Target, Megaphone } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const skills = [
   { id: "#01", label: "AI Automation", icon: <Cpu className="w-4 h-4" /> },
@@ -10,9 +12,16 @@ const skills = [
   { id: "#04", label: "Brand Positioning", icon: <Target className="w-4 h-4" /> },
 ];
 
-export default function Hero() {
+interface HeroProps {
+  isVisible: boolean;
+}
+
+export default function Hero({ isVisible }: HeroProps) {
   return (
-    <section className="relative h-screen flex items-center overflow-hidden">
+    <section className={cn(
+      "relative h-screen flex items-center overflow-hidden transition-all duration-700 ease-out",
+      isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+    )}>
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
         <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
           <div>
@@ -55,7 +64,7 @@ export default function Hero() {
                 </Button>
               </div>
               <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-primary/60 animate-pulse">
-                Scroll to initialize sequence
+                Deployment Complete
               </p>
             </div>
           </div>
