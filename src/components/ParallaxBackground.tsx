@@ -70,7 +70,10 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
       );
       
       const img = images[frameIndex];
-      if (!img || !img.complete) return;
+      // Defensive check: ensure image is loaded and not broken
+      if (!img || !img.complete || img.naturalWidth === 0 || img.width === 0 || img.height === 0) {
+        return;
+      }
 
       const canvasWidth = canvas.width;
       const canvasHeight = canvas.height;
@@ -80,8 +83,11 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
       const x = (canvasWidth / 2) - (w / 2);
       const y = (canvasHeight / 2) - (h / 2);
       
-      // Removed clearRect to prevent flickering (images are full screen)
-      context.drawImage(img, x, y, w, h);
+      try {
+        context.drawImage(img, x, y, w, h);
+      } catch (e) {
+        // Silently catch occasional race condition draw errors
+      }
     };
 
     const animate = () => {
