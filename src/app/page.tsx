@@ -13,8 +13,8 @@ export default function Home() {
   
   // The total scroll distance for the sticky intro section (in vh)
   const INTRO_SCROLL_HEIGHT = 400; 
-  // Percentage of the scroll height dedicated to the background frame animation (0.7 = 70%)
-  const ANIMATION_END_THRESHOLD = 0.7; 
+  // Percentage of the scroll height dedicated to the background frame animation (0.5 = 50%)
+  const ANIMATION_END_THRESHOLD = 0.5; 
 
   useEffect(() => {
     const handleScroll = () => {
@@ -29,12 +29,12 @@ export default function Home() {
         const totalProgress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
         
         // Calculate the scrubbing progress for the 163 frames
-        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD (70% scroll)
+        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD (50% scroll)
         const scrubbing = Math.min(1, totalProgress / ANIMATION_END_THRESHOLD);
         setAnimProgress(scrubbing);
 
         // Show hero content only after the animation is almost complete
-        // and keep it visible throughout the "hold" phase (70% to 100%)
+        // and keep it visible throughout the "hold" phase (50% to 100%)
         setIsHeroVisible(totalProgress >= ANIMATION_END_THRESHOLD - 0.05);
       }
     };
