@@ -2,7 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function ParallaxBackground() {
+interface ParallaxBackgroundProps {
+  /** The distance in vh units for the animation scrubbing */
+  scrubDistance?: number;
+}
+
+export default function ParallaxBackground({ scrubDistance = 400 }: ParallaxBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [isReady, setIsReady] = useState(false);
@@ -29,7 +34,6 @@ export default function ParallaxBackground() {
         }
       };
       img.onerror = () => {
-        // Fallback for failed loads to keep count consistent
         loadedCount++;
         if (loadedCount === frameCount) {
           setImages(loadedImages);
@@ -51,7 +55,6 @@ export default function ParallaxBackground() {
       const img = images[index];
       if (!img || !img.complete) return;
 
-      // Cover logic for canvas
       const scale = Math.max(canvas.width / img.width, canvas.height / img.height);
       const w = img.width * scale;
       const h = img.height * scale;
@@ -70,17 +73,20 @@ export default function ParallaxBackground() {
 
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const docHeight = document.documentElement.scrollHeight;
       const winHeight = window.innerHeight;
-      const maxScroll = docHeight - winHeight;
       
-      if (maxScroll <= 0) return;
+      // Calculate how much we've scrolled through the intro section
+      // scrubDistance is in vh, so scrubDistance * winHeight / 100 is the pixel distance
+      const totalScrubPx = (scrubDistance * winHeight) / 100 - winHeight;
+      
+      if (totalScrubPx <= 0) return;
 
-      const scrollFraction = scrollTop / maxScroll;
-      // Map scroll to frame index
+      // Fraction of the scrub section we've completed
+      const scrollFraction = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
+      
       const frameIndex = Math.min(
         frameCount - 1,
-        Math.floor(scrollFraction * frameCount)
+        Math.floor(scrollFraction * (frameCount - 1))
       );
       
       requestAnimationFrame(() => renderFrame(frameIndex));
@@ -89,28 +95,29 @@ export default function ParallaxBackground() {
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll);
     
-    // Trigger initial render
     handleResize();
 
     return () => {
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [isReady, images]);
+  }, [isReady, images, scrubDistance]);
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
       <canvas 
         ref={canvasRef} 
         className="w-full h-full object-cover transition-opacity duration-1000"
-        style={{ opacity: isReady ? 0.5 : 0 }}
+        style={{ opacity: isReady ? 0.6 : 0 }}
       />
-      {/* Overlay to blend with the dark theme */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background opacity-90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-transparent to-background" />
       
       {!isReady && (
         <div className="absolute inset-0 flex items-center justify-center bg-background">
-          <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+          <div className="flex flex-col items-center gap-4">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+            <p className="font-mono text-xs tracking-widest uppercase text-primary">Initializing Neural Interface...</p>
+          </div>
         </div>
       )}
     </div>

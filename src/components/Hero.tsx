@@ -12,7 +12,7 @@ const skills = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center pt-20 pb-32 overflow-hidden">
+    <section className="relative h-screen flex items-center overflow-hidden">
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
         <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
           <div>
@@ -48,10 +48,15 @@ export default function Hero() {
               I bridge the gap between human psychology and automation to build 
               high-performance digital ecosystems.
             </p>
-            <div className="flex gap-4">
-              <Button size="lg" className="premium-button bg-primary text-white hover:bg-primary/90 px-8">
-                Explore Work <ArrowRight className="ml-2 w-4 h-4" />
-              </Button>
+            <div className="flex flex-col gap-4">
+              <div className="flex gap-4">
+                <Button size="lg" className="premium-button bg-primary text-white hover:bg-primary/90 px-8">
+                  Explore Work <ArrowRight className="ml-2 w-4 h-4" />
+                </Button>
+              </div>
+              <p className="text-[10px] uppercase font-bold tracking-[0.3em] text-primary/60 animate-pulse">
+                Scroll to initialize sequence
+              </p>
             </div>
           </div>
         </div>
