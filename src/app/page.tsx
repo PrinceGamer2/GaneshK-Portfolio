@@ -6,28 +6,30 @@ import Hero from '@/components/Hero';
 import Experience from '@/components/Experience';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
+import Certifications from '@/components/Certifications';
+import Achievements from '@/components/Achievements';
 
 export default function Home() {
   const [animProgress, setAnimProgress] = useState(0);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
-  
+
   // The total scroll distance for the sticky intro section (in vh)
-  const INTRO_SCROLL_HEIGHT = 400; 
+  const INTRO_SCROLL_HEIGHT = 400;
   // Percentage of the scroll height dedicated to the background frame animation (0.7 = 70%)
-  const ANIMATION_END_THRESHOLD = 0.7; 
+  const ANIMATION_END_THRESHOLD = 0.7;
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       const winHeight = window.innerHeight;
-      
+
       // Calculate total pixels available for scrubbing in the intro container
       const totalScrubPx = (INTRO_SCROLL_HEIGHT * winHeight) / 100 - winHeight;
-      
+
       if (totalScrubPx > 0) {
         // Absolute progress from 0 to 1 within the intro section
         const totalProgress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
-        
+
         // Calculate the scrubbing progress for the 163 frames
         // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD (70% scroll)
         const scrubbing = Math.min(1, totalProgress / ANIMATION_END_THRESHOLD);
@@ -60,8 +62,8 @@ export default function Home() {
       </header>
 
       {/* Intro Section with pinned animation and hero text */}
-      <section 
-        className="relative" 
+      <section
+        className="relative"
         style={{ height: `${INTRO_SCROLL_HEIGHT}vh` }}
       >
         <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
@@ -69,17 +71,25 @@ export default function Home() {
           <Hero isVisible={isHeroVisible} />
         </div>
       </section>
-      
+
       {/* Content Section revealed after the long "hold" intro */}
       <div className="relative z-20 bg-background border-t border-white/5 shadow-[0_-100px_100px_rgba(0,0,0,0.8)]">
         <div id="tech">
           <TechStack />
         </div>
-        
+
         <div id="experience">
           <Experience />
         </div>
-        
+
+        <div id="certifications">
+          <Certifications />
+        </div>
+
+        <div id="achievements">
+          <Achievements />
+        </div>
+
         <div id="contact">
           <Contact />
         </div>
