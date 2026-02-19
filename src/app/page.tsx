@@ -14,9 +14,17 @@ export default function Home() {
   const [isHeroVisible, setIsHeroVisible] = useState(false);
 
   // The total scroll distance for the sticky intro section (in vh)
+<<<<<<< HEAD
   const INTRO_SCROLL_HEIGHT = 400;
   // Percentage of the scroll height dedicated to the background frame animation (0.7 = 70%)
   const ANIMATION_END_THRESHOLD = 0.7;
+=======
+  // Reduced to 300vh to make the overall sequence tighter
+  const INTRO_SCROLL_HEIGHT = 300; 
+  // Percentage of the scroll height dedicated to the background frame animation
+  // 0.66 of 300vh is 200vh, keeping the animation speed consistent but halving the hold distance
+  const ANIMATION_END_THRESHOLD = 0.66; 
+>>>>>>> 7cfe4dae20deafba300991c3129505f01e653378
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,12 +39,12 @@ export default function Home() {
         const totalProgress = Math.min(1, Math.max(0, scrollTop / totalScrubPx));
 
         // Calculate the scrubbing progress for the 163 frames
-        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD (70% scroll)
+        // This will reach 1.0 when totalProgress reaches ANIMATION_END_THRESHOLD
         const scrubbing = Math.min(1, totalProgress / ANIMATION_END_THRESHOLD);
         setAnimProgress(scrubbing);
 
         // Show hero content only after the animation is almost complete
-        // and keep it visible throughout the "hold" phase (70% to 100%)
+        // and keep it visible throughout the "hold" phase
         setIsHeroVisible(totalProgress >= ANIMATION_END_THRESHOLD - 0.05);
       }
     };
@@ -71,8 +79,13 @@ export default function Home() {
           <Hero isVisible={isHeroVisible} />
         </div>
       </section>
+<<<<<<< HEAD
 
       {/* Content Section revealed after the long "hold" intro */}
+=======
+      
+      {/* Content Section revealed after the intro */}
+>>>>>>> 7cfe4dae20deafba300991c3129505f01e653378
       <div className="relative z-20 bg-background border-t border-white/5 shadow-[0_-100px_100px_rgba(0,0,0,0.8)]">
         <div id="tech">
           <TechStack />
