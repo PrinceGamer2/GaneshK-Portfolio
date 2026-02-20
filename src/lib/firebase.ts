@@ -13,10 +13,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only on client side
-let app;
-let auth;
-let db;
-let storage;
+let app: any;
+let auth: any;
+let db: any;
+let storage: any;
 
 if (typeof window !== "undefined") {
   try {
