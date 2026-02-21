@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ExternalLink, Calendar } from 'lucide-react';
@@ -24,13 +22,12 @@ export default function Certifications() {
     useEffect(() => {
         const fetchCertifications = async () => {
             try {
-                const q = query(collection(db, 'certifications'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                const certs = querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                } as Certification));
-                setCertifications(certs);
+                const res = await fetch('/api/data?type=certifications');
+                if (res.ok) {
+                    const data = await res.json();
+                    data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    setCertifications(data);
+                }
             } catch (error) {
                 console.error("Error fetching certifications:", error);
             } finally {
@@ -46,7 +43,7 @@ export default function Certifications() {
     }
 
     if (certifications.length === 0) {
-        return null; // Don't show section if empty
+        return null;
     }
 
     return (
@@ -57,7 +54,10 @@ export default function Certifications() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {certifications.map((cert) => (
-                    <Card key={cert.id} className="bg-card/50 backdrop-blur-sm border-white/10 hover:border-primary/50 transition-all duration-300 group">
+                    <Card key={cert.id} className="bg-card/50 backdrop-blur-sm border-white/10 hover:border-primary/50 transition-all duration-300 group overflow-hidden">
+                        {cert.imageUrl && (
+                            <img src={cert.imageUrl} alt={cert.title} className="w-full h-32 object-cover" />
+                        )}
                         <CardHeader className="pb-3">
                             <div className="flex justify-between items-start gap-4">
                                 <CardTitle className="text-lg font-bold group-hover:text-primary transition-colors">
@@ -79,10 +79,10 @@ export default function Certifications() {
                         <CardContent>
                             <div className="flex items-center gap-2 text-xs text-muted-foreground mb-4">
                                 <Calendar className="w-3 h-3" />
-                                <span>{new Date(cert.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long' })}</span>
+                                <span>{cert.date ? new Date(cert.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long' }) : ''}</span>
                             </div>
 
-                            {cert.skills && cert.skills.length > 0 && (
+                            {Array.isArray(cert.skills) && cert.skills.length > 0 && (
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {cert.skills.map((skill, index) => (
                                         <Badge key={index} variant="secondary" className="text-[10px] px-2 py-0 h-5">

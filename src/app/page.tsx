@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import ParallaxBackground from '@/components/ParallaxBackground';
 import Hero from '@/components/Hero';
+import Blogs from '@/components/Blogs';
 import Experience from '@/components/Experience';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
@@ -77,6 +78,10 @@ export default function Home() {
       <div className="relative z-20 bg-background border-t border-white/5 shadow-[0_-100px_100px_rgba(0,0,0,0.8)]">
         <div id="tech">
           <TechStack />
+        </div>
+
+        <div id="blogs">
+          <Blogs />
         </div>
 
         <div id="experience">

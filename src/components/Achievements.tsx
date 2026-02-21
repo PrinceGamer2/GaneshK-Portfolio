@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { collection, getDocs, orderBy, query } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Trophy } from 'lucide-react';
@@ -23,22 +21,20 @@ export default function Achievements() {
     useEffect(() => {
         const fetchAchievements = async () => {
             try {
-                const q = query(collection(db, 'achievements'), orderBy('date', 'desc'));
-                const querySnapshot = await getDocs(q);
-                return querySnapshot.docs.map(doc => ({
-                    id: doc.id,
-                    ...doc.data()
-                } as Achievement));
+                const res = await fetch('/api/data?type=achievements');
+                if (res.ok) {
+                    const data = await res.json();
+                    data.sort((a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime());
+                    setAchievements(data);
+                }
             } catch (error) {
                 console.error("Error fetching achievements:", error);
-                return [];
+            } finally {
+                setLoading(false);
             }
         };
 
-        fetchAchievements().then(data => {
-            setAchievements(data);
-            setLoading(false);
-        });
+        fetchAchievements();
     }, []);
 
     if (loading) {
@@ -61,7 +57,6 @@ export default function Achievements() {
                         <div className="flex flex-col md:flex-row h-full">
                             {achievement.imageUrl && (
                                 <div className="md:w-1/3 relative h-48 md:h-auto overflow-hidden">
-                                    {/* Fallback to simple img tag if optimization fails or config missing */}
                                     <img
                                         src={achievement.imageUrl}
                                         alt={achievement.title}
@@ -72,17 +67,19 @@ export default function Achievements() {
                             <div className={`p-6 flex flex-col justify-between ${achievement.imageUrl ? 'md:w-2/3' : 'w-full'}`}>
                                 <div>
                                     <div className="flex justify-between items-start mb-2">
-                                        <Badge variant="outline" className="text-primary border-primary/50 text-xs">
-                                            {achievement.category || 'Award'}
-                                        </Badge>
+                                        {achievement.category && (
+                                            <Badge variant="outline" className="text-primary border-primary/50 text-xs">
+                                                {achievement.category}
+                                            </Badge>
+                                        )}
                                         <span className="text-xs text-muted-foreground font-mono">
-                                            {new Date(achievement.date).getFullYear()}
+                                            {achievement.date ? new Date(achievement.date).getFullYear() : ''}
                                         </span>
                                     </div>
                                     <h3 className="text-xl font-bold mb-2 group-hover:text-primary transition-colors">
                                         {achievement.title}
                                     </h3>
-                                    <p className="text-sm text-muted-foreground leading-relaxed">
+                                    <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
                                         {achievement.description}
                                     </p>
                                 </div>
