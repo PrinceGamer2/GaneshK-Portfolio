@@ -73,17 +73,13 @@ export default function Home() {
 
           <nav className="hidden xl:flex items-center gap-8">
             <a href="#tech" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
-            <a href="#blogs" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
             <a href="#experience" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
-            <a href="#achievements" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
             <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-primary border border-primary/50 px-4 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
 
           <nav className="hidden md:flex xl:hidden items-center gap-4">
             <a href="#tech" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
-            <a href="#blogs" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
             <a href="#experience" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
-            <a href="#achievements" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
             <a href="#contact" className="text-xs font-bold uppercase tracking-widest text-primary border border-primary/50 px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
 
@@ -102,9 +98,7 @@ export default function Home() {
           <div className="absolute top-full left-0 w-full bg-background/95 backdrop-blur-xl border-b border-white/5 md:hidden animate-in slide-in-from-top-4 fade-in duration-300">
             <nav className="flex flex-col items-center py-8 gap-6">
               <a href="#tech" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
-              <a href="#blogs" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
               <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
-              <a href="#achievements" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
               <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest text-primary border border-primary/50 px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
             </nav>
           </div>
@@ -121,11 +115,11 @@ export default function Home() {
           <Hero isVisible={isHeroVisible} />
 
           {/* Scroll Prompt */}
-          <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 text-primary/80 transition-all duration-500 ${scrollPromptStatus === 'hidden' ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
-            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium text-center animate-pulse drop-shadow-lg">
+          <div className={`absolute bottom-4 sm:bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-1.5 sm:gap-2 text-primary/80 transition-all duration-500 ${scrollPromptStatus === 'hidden' ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium text-center animate-pulse drop-shadow-lg glass-card px-3 py-1 rounded-full border-none bg-background/50">
               {scrollPromptStatus === 'initial' ? 'Scroll to explore' : 'Keep scrolling'}
             </span>
-            <ChevronDown className="w-5 h-5 animate-bounce drop-shadow-md" />
+            <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 animate-bounce drop-shadow-md" />
           </div>
         </div>
       </section>

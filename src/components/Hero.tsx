@@ -19,16 +19,16 @@ interface HeroProps {
 export default function Hero({ isVisible }: HeroProps) {
   return (
     <section className={cn(
-      "relative min-h-screen flex items-center overflow-hidden transition-all duration-700 ease-out pt-24 pb-12 lg:pt-0",
+      "relative min-h-screen flex items-end lg:items-center overflow-hidden transition-all duration-700 ease-out pt-32 pb-28 sm:pb-32 lg:pt-0 lg:pb-0",
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
     )}>
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10">
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-6 lg:space-y-8 mt-12 lg:mt-0">
+      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10 w-full">
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-5 sm:space-y-6 lg:space-y-8 mt-4 lg:mt-0">
           <div>
-            <span className="text-primary font-medium tracking-[0.2em] uppercase text-xs sm:text-sm mb-3 lg:mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <span className="text-primary font-medium tracking-[0.2em] uppercase text-[10px] sm:text-xs lg:text-sm mb-2 lg:mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-1000">
               The Future of Digital Efficiency
             </span>
-            <h1 className="text-[3.5rem] leading-[1.1] sm:text-6xl md:text-8xl lg:text-9xl font-black mb-6 lg:mb-8 animate-in fade-in slide-in-from-left-8 duration-1000">
+            <h1 className="text-[3rem] leading-[1.05] sm:text-5xl md:text-7xl lg:text-9xl font-black mb-4 lg:mb-8 animate-in fade-in slide-in-from-left-8 duration-1000">
               PRINCE<br />
               <span className="text-primary">GANESH</span>
             </h1>
@@ -48,11 +48,11 @@ export default function Hero({ isVisible }: HeroProps) {
         </div>
 
         <div className="lg:col-span-5 flex flex-col justify-center space-y-8 animate-in fade-in slide-in-from-right-8 duration-1000 delay-500">
-          <div className="space-y-6 lg:pl-8">
-            <h2 className="text-2xl md:text-3xl font-bold leading-tight">
+          <div className="space-y-4 sm:space-y-6 lg:pl-8">
+            <h2 className="text-xl md:text-2xl lg:text-3xl font-bold leading-tight">
               Engineering Growth Through Intelligence & Leadership.
             </h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
+            <p className="text-sm sm:text-base lg:text-lg text-muted-foreground leading-relaxed">
               Social Media Team Head of Digitopedia and BBA scholar at Presidency University.
               I bridge the gap between human psychology and automation to build
               high-performance digital ecosystems.

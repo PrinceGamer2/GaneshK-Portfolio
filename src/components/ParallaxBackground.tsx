@@ -12,7 +12,7 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [isReady, setIsReady] = useState(false);
-  
+
   // Internal ref for smoothing the input scrubProgress
   const scrollRef = useRef({
     current: 0,
@@ -21,7 +21,7 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
   });
 
   const frameCount = 163;
-  
+
   const getFrameUrl = (index: number) => {
     const paddedIndex = index.toString().padStart(3, '0');
     return `https://iassbuoisrzfkqjvddai.supabase.co/storage/v1/object/public/My%20Video/frame_${paddedIndex}_delay-0.042s.webp`;
@@ -68,7 +68,7 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
         frameCount - 1,
         Math.floor(progress * (frameCount - 1))
       );
-      
+
       const img = images[frameIndex];
       // Defensive check: ensure image is loaded and not broken
       if (!img || !img.complete || img.naturalWidth === 0 || img.width === 0 || img.height === 0) {
@@ -82,7 +82,7 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
       const h = img.height * scale;
       const x = (canvasWidth / 2) - (w / 2);
       const y = (canvasHeight / 2) - (h / 2);
-      
+
       try {
         context.drawImage(img, x, y, w, h);
       } catch (e) {
@@ -92,9 +92,9 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
 
     const animate = () => {
       // Smoothening with lerp
-      const lerpFactor = 0.08; 
+      const lerpFactor = 0.08;
       scrollRef.current.current += (scrollRef.current.target - scrollRef.current.current) * lerpFactor;
-      
+
       renderFrame(scrollRef.current.current);
       scrollRef.current.requestRef = requestAnimationFrame(animate);
     };
@@ -117,14 +117,14 @@ export default function ParallaxBackground({ scrubProgress }: ParallaxBackground
 
   return (
     <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-background">
-      <canvas 
-        ref={canvasRef} 
+      <canvas
+        ref={canvasRef}
         className="w-full h-full object-cover"
         style={{ opacity: isReady ? 1 : 0, transition: 'opacity 0.5s ease' }}
       />
-      {/* Visual overlays for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
-      
+      {/* Visual overlays for depth - heavily darkened on mobile to ensure text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/90 lg:from-background/40 lg:via-transparent lg:to-background/80" />
+
       {!isReady && (
         <div className="absolute inset-0 flex items-center justify-center bg-background z-50">
           <div className="flex flex-col items-center gap-6">
