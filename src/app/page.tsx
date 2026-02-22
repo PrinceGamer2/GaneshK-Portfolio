@@ -110,16 +110,16 @@ export default function Home() {
         className="relative"
         style={{ height: `${INTRO_SCROLL_HEIGHT}vh` }}
       >
-        <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
+        <div className="sticky top-0 h-[100dvh] w-full overflow-hidden z-10">
           <ParallaxBackground scrubProgress={animProgress} />
           <Hero isVisible={isHeroVisible} />
 
           {/* Scroll Prompt */}
-          <div className={`absolute bottom-24 sm:bottom-12 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 sm:gap-3 text-primary transition-all duration-500 ${scrollPromptStatus === 'hidden' ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
-            <span className="text-xs sm:text-sm uppercase tracking-[0.2em] font-bold text-center animate-pulse drop-shadow-lg bg-primary/20 backdrop-blur-md px-4 py-2 rounded-full border border-primary/30">
+          <div className={`absolute bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-1 sm:gap-2 text-primary transition-all duration-500 ${scrollPromptStatus === 'hidden' ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-bold text-center animate-pulse drop-shadow-lg bg-background/50 glass-card px-3 py-1 rounded-full border-none">
               {scrollPromptStatus === 'initial' ? 'Scroll to explore' : 'Keep scrolling'}
             </span>
-            <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 animate-bounce drop-shadow-md" />
+            <ChevronDown className="w-5 h-5 sm:w-6 sm:h-6 animate-bounce drop-shadow-md" />
           </div>
         </div>
       </section>

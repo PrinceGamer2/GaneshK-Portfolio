@@ -19,7 +19,7 @@ interface HeroProps {
 export default function Hero({ isVisible }: HeroProps) {
   return (
     <section className={cn(
-      "relative min-h-screen flex items-end lg:items-center overflow-hidden transition-all duration-700 ease-out pt-32 pb-28 sm:pb-32 lg:pt-0 lg:pb-0",
+      "relative h-[100dvh] flex items-end lg:items-center overflow-hidden transition-all duration-700 ease-out py-20 pb-20 sm:pb-24 lg:pt-0 lg:pb-0",
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
     )}>
       <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10 w-full">
