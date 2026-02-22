@@ -58,7 +58,7 @@ export default function Experience() {
                     <Calendar className="w-4 h-4 text-primary/60" />
                     <span>{pos.period}</span>
                   </div>
-                  <p className="text-lg font-semibold text-secondary">{pos.company}</p>
+                  <p className="text-lg font-semibold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400 inline-block">{pos.company}</p>
                 </div>
 
                 <div className="lg:col-span-8 space-y-6">
