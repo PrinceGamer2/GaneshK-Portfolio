@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ParallaxBackground from '@/components/ParallaxBackground';
 import Hero from '@/components/Hero';
 import Blogs from '@/components/Blogs';
@@ -19,6 +19,8 @@ export default function Home() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrollPromptStatus, setScrollPromptStatus] = useState<'initial' | 'hidden' | 'continue'>('initial');
 
+  const sectionRef = useRef<HTMLElement>(null);
+
   // The total scroll distance for the sticky intro section (in vh)
   // Reduced to 300vh to make the overall sequence tighter
   const INTRO_SCROLL_HEIGHT = 300;
@@ -32,7 +34,10 @@ export default function Home() {
       const winHeight = window.innerHeight;
 
       // Calculate total pixels available for scrubbing in the intro container
-      const totalScrubPx = (INTRO_SCROLL_HEIGHT * winHeight) / 100 - winHeight;
+      let totalScrubPx = (INTRO_SCROLL_HEIGHT * winHeight) / 100 - winHeight;
+      if (sectionRef.current) {
+        totalScrubPx = sectionRef.current.getBoundingClientRect().height - winHeight;
+      }
 
       if (totalScrubPx > 0) {
         // Absolute progress from 0 to 1 within the intro section
@@ -76,12 +81,14 @@ export default function Home() {
           <nav className="hidden xl:flex items-center gap-8">
             <a href="#tech" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
             <a href="#experience" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+            <a href="#certifications" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Certificates</a>
             <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-primary border border-primary/50 px-4 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
 
           <nav className="hidden md:flex xl:hidden items-center gap-4">
             <a href="#tech" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
             <a href="#experience" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+            <a href="#certifications" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Certificates</a>
             <a href="#contact" className="text-xs font-bold uppercase tracking-widest text-primary border border-primary/50 px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
 
@@ -101,6 +108,7 @@ export default function Home() {
             <nav className="flex flex-col items-center py-8 gap-6">
               <a href="#tech" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
               <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+              <a href="#certifications" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Certificates</a>
               <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest text-primary border border-primary/50 px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
             </nav>
           </div>
@@ -109,8 +117,9 @@ export default function Home() {
 
       {/* Intro Section with pinned animation and hero text */}
       <section
+        ref={sectionRef}
         className="relative"
-        style={{ height: `${INTRO_SCROLL_HEIGHT}vh` }}
+        style={{ height: `${INTRO_SCROLL_HEIGHT}dvh` }}
       >
         <div className="sticky top-0 h-[100dvh] w-full overflow-hidden z-10">
           <ParallaxBackground scrubProgress={animProgress} />

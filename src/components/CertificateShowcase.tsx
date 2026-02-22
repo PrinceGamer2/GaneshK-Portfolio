@@ -1,7 +1,8 @@
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
-import { Award, ZoomIn } from 'lucide-react';
+import { Award, ZoomIn, X } from 'lucide-react';
 
 const certificates = [
     {
@@ -31,6 +32,8 @@ const certificates = [
 ];
 
 export default function CertificateShowcase() {
+    const [selectedCert, setSelectedCert] = useState<{ name: string; file: string } | null>(null);
+
     return (
         <section className="py-20 container mx-auto px-6 relative" id="certificate-showcase">
             {/* Background Decorator */}
@@ -50,7 +53,11 @@ export default function CertificateShowcase() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {certificates.map((cert, index) => (
-                    <Card key={index} className="group overflow-hidden bg-card border-white/5 hover:border-primary/50 transition-all duration-500 shadow-xl shadow-black/40 hover:shadow-primary/20">
+                    <Card
+                        key={index}
+                        className="group overflow-hidden bg-card border-white/5 hover:border-primary/50 transition-all duration-500 shadow-xl shadow-black/40 hover:shadow-primary/20 cursor-pointer"
+                        onClick={() => setSelectedCert(cert)}
+                    >
                         <CardContent className="p-0 relative aspect-[4/3] w-full bg-muted/20">
                             <img
                                 src={`/certificates/${cert.file}`}
@@ -72,6 +79,31 @@ export default function CertificateShowcase() {
                     </Card>
                 ))}
             </div>
+
+            {/* Lightbox Modal */}
+            {selectedCert && (
+                <div
+                    className="fixed inset-0 z-[100] flex items-center justify-center bg-background/90 backdrop-blur-sm p-4 animate-in fade-in duration-300"
+                    onClick={() => setSelectedCert(null)}
+                >
+                    <div className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+                        <button
+                            className="absolute -top-12 right-0 md:-right-12 p-2 bg-background/50 hover:bg-primary/20 text-white rounded-full transition-colors border border-white/10"
+                            onClick={() => setSelectedCert(null)}
+                        >
+                            <X className="w-6 h-6" />
+                        </button>
+                        <img
+                            src={`/certificates/${selectedCert.file}`}
+                            alt={selectedCert.name}
+                            className="max-w-full max-h-[85vh] object-contain rounded-lg border border-white/10 shadow-2xl"
+                        />
+                        <p className="mt-4 text-lg font-bold text-center text-white">
+                            {selectedCert.name}
+                        </p>
+                    </div>
+                </div>
+            )}
         </section>
     );
 }
