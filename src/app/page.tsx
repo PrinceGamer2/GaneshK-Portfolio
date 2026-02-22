@@ -8,8 +8,10 @@ import Experience from '@/components/Experience';
 import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 import Certifications from '@/components/Certifications';
+import CertificateShowcase from '@/components/CertificateShowcase';
 import Achievements from '@/components/Achievements';
 import { Menu, X, ChevronDown } from 'lucide-react';
+
 
 export default function Home() {
   const [animProgress, setAnimProgress] = useState(0);
@@ -139,6 +141,7 @@ export default function Home() {
 
         <div id="certifications">
           <Certifications />
+          <CertificateShowcase />
         </div>
 
         <div id="achievements">
