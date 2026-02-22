@@ -36,7 +36,6 @@
   body {
     @apply bg-background text-foreground font-body antialiased selection:bg-primary/30;
     scroll-behavior: smooth;
-    overflow-x: hidden;
   }
 
   h1,
