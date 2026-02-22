@@ -9,12 +9,13 @@ import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 import Certifications from '@/components/Certifications';
 import Achievements from '@/components/Achievements';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 
 export default function Home() {
   const [animProgress, setAnimProgress] = useState(0);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [scrollPromptStatus, setScrollPromptStatus] = useState<'initial' | 'hidden' | 'continue'>('initial');
 
   // The total scroll distance for the sticky intro section (in vh)
   // Reduced to 300vh to make the overall sequence tighter
@@ -42,7 +43,18 @@ export default function Home() {
 
         // Show hero content only after the animation is almost complete
         // and keep it visible throughout the "hold" phase
-        setIsHeroVisible(totalProgress >= ANIMATION_END_THRESHOLD - 0.05);
+        const heroVisible = totalProgress >= ANIMATION_END_THRESHOLD - 0.05;
+        setIsHeroVisible(heroVisible);
+
+        if (scrollTop < 50) {
+          setScrollPromptStatus('initial');
+        } else if (!heroVisible) {
+          setScrollPromptStatus('hidden');
+        } else if (heroVisible && totalProgress < 0.99) {
+          setScrollPromptStatus('continue');
+        } else {
+          setScrollPromptStatus('hidden');
+        }
       }
     };
 
@@ -107,6 +119,14 @@ export default function Home() {
         <div className="sticky top-0 h-screen w-full overflow-hidden z-10">
           <ParallaxBackground scrubProgress={animProgress} />
           <Hero isVisible={isHeroVisible} />
+
+          {/* Scroll Prompt */}
+          <div className={`absolute bottom-8 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 text-primary/80 transition-all duration-500 ${scrollPromptStatus === 'hidden' ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0'}`}>
+            <span className="text-[10px] sm:text-xs uppercase tracking-[0.2em] font-medium text-center animate-pulse drop-shadow-lg">
+              {scrollPromptStatus === 'initial' ? 'Scroll to explore' : 'Keep scrolling'}
+            </span>
+            <ChevronDown className="w-5 h-5 animate-bounce drop-shadow-md" />
+          </div>
         </div>
       </section>
       {/* Content Section revealed after the intro */}
