@@ -59,7 +59,7 @@ export default function Hero({ isVisible }: HeroProps) {
             </p>
             <div className="flex flex-col gap-4">
               <div className="flex gap-4">
-                <Button size="lg" className="premium-button bg-primary text-white hover:bg-primary/90 px-8">
+                <Button size="lg" className="premium-button bg-primary text-white hover:bg-primary/90 px-8" onClick={() => document.getElementById('experience')?.scrollIntoView({ behavior: 'smooth' })}>
                   Explore Work <ArrowRight className="ml-2 w-4 h-4" />
                 </Button>
               </div>
