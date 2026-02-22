@@ -19,26 +19,26 @@ interface HeroProps {
 export default function Hero({ isVisible }: HeroProps) {
   return (
     <section className={cn(
-      "relative h-screen flex items-center overflow-hidden transition-all duration-700 ease-out",
+      "relative min-h-screen flex items-center overflow-hidden transition-all duration-700 ease-out pt-24 pb-12 lg:pt-0",
       isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
     )}>
-      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
-        <div className="lg:col-span-7 flex flex-col justify-center space-y-8">
+      <div className="container mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 relative z-10">
+        <div className="lg:col-span-7 flex flex-col justify-center space-y-6 lg:space-y-8 mt-12 lg:mt-0">
           <div>
-            <span className="text-primary font-medium tracking-[0.2em] uppercase text-sm mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            <span className="text-primary font-medium tracking-[0.2em] uppercase text-xs sm:text-sm mb-3 lg:mb-4 block animate-in fade-in slide-in-from-bottom-4 duration-1000">
               The Future of Digital Efficiency
             </span>
-            <h1 className="text-7xl md:text-9xl font-black leading-none mb-8 animate-in fade-in slide-in-from-left-8 duration-1000">
+            <h1 className="text-[3.5rem] leading-[1.1] sm:text-6xl md:text-8xl lg:text-9xl font-black mb-6 lg:mb-8 animate-in fade-in slide-in-from-left-8 duration-1000">
               PRINCE<br />
               <span className="text-primary">GANESH</span>
             </h1>
           </div>
-          
-          <div className="flex flex-wrap gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
+
+          <div className="flex flex-wrap gap-2 sm:gap-4 animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-300">
             {skills.map((skill) => (
-              <div 
+              <div
                 key={skill.id}
-                className="glass-card px-4 py-2 rounded-full flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground border-white/5 hover:border-primary/50 transition-colors"
+                className="glass-card px-3 py-1.5 sm:px-4 sm:py-2 rounded-full flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-muted-foreground border-white/5 hover:border-primary/50 transition-colors"
               >
                 <span className="text-primary/70">{skill.id}</span>
                 <span>{skill.label}</span>
@@ -53,8 +53,8 @@ export default function Hero({ isVisible }: HeroProps) {
               Engineering Growth Through Intelligence & Leadership.
             </h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Vice President of Digitopedia and BBA scholar at Presidency University. 
-              I bridge the gap between human psychology and automation to build 
+              Social Media Team Head of Digitopedia and BBA scholar at Presidency University.
+              I bridge the gap between human psychology and automation to build
               high-performance digital ecosystems.
             </p>
             <div className="flex flex-col gap-4">

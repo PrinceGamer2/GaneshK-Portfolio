@@ -9,10 +9,12 @@ import TechStack from '@/components/TechStack';
 import Contact from '@/components/Contact';
 import Certifications from '@/components/Certifications';
 import Achievements from '@/components/Achievements';
+import { Menu, X } from 'lucide-react';
 
 export default function Home() {
   const [animProgress, setAnimProgress] = useState(0);
   const [isHeroVisible, setIsHeroVisible] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // The total scroll distance for the sticky intro section (in vh)
   // Reduced to 300vh to make the overall sequence tighter
@@ -51,17 +53,50 @@ export default function Home() {
 
   return (
     <main className="relative min-h-screen">
-      <header className="fixed top-0 left-0 right-0 z-50 py-6 border-b border-white/5 bg-background/50 backdrop-blur-xl">
-        <div className="container mx-auto px-6 flex items-center justify-between">
-          <div className="text-2xl font-black tracking-tighter uppercase">
+      <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/50 backdrop-blur-xl transition-all">
+        <div className="container mx-auto px-6 py-6 flex items-center justify-between">
+          <div className="text-2xl font-black tracking-tighter uppercase relative z-50">
             Ganesh<span className="text-primary">K.AI</span>
           </div>
-          <nav className="hidden md:flex items-center gap-8">
-            <a href="#experience" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+
+          <nav className="hidden xl:flex items-center gap-8">
             <a href="#tech" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
+            <a href="#blogs" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
+            <a href="#experience" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+            <a href="#achievements" className="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
             <a href="#contact" className="text-sm font-bold uppercase tracking-widest text-primary border border-primary/50 px-4 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
           </nav>
+
+          <nav className="hidden md:flex xl:hidden items-center gap-4">
+            <a href="#tech" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
+            <a href="#blogs" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
+            <a href="#experience" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+            <a href="#achievements" className="text-xs font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
+            <a href="#contact" className="text-xs font-bold uppercase tracking-widest text-primary border border-primary/50 px-3 py-1 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
+          </nav>
+
+          {/* Mobile Menu Toggle button */}
+          <button
+            className="md:hidden relative z-50 text-foreground hover:text-primary transition-colors focus:outline-none"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
         </div>
+
+        {/* Mobile Dropdown Nav */}
+        {isMobileMenuOpen && (
+          <div className="absolute top-full left-0 w-full bg-background/95 backdrop-blur-xl border-b border-white/5 md:hidden animate-in slide-in-from-top-4 fade-in duration-300">
+            <nav className="flex flex-col items-center py-8 gap-6">
+              <a href="#tech" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Stack</a>
+              <a href="#blogs" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Blogs</a>
+              <a href="#experience" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Experience</a>
+              <a href="#achievements" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest hover:text-primary transition-colors">Awards</a>
+              <a href="#contact" onClick={() => setIsMobileMenuOpen(false)} className="text-lg font-bold uppercase tracking-widest text-primary border border-primary/50 px-8 py-2 rounded-full hover:bg-primary hover:text-white transition-all">Hire Me</a>
+            </nav>
+          </div>
+        )}
       </header>
 
       {/* Intro Section with pinned animation and hero text */}

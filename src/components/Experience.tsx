@@ -6,22 +6,24 @@ import { Briefcase, Calendar, CheckCircle2 } from "lucide-react";
 export default function Experience() {
   const positions = [
     {
-      title: "Vice President",
-      company: "Digitopedia | Presidency University",
-      period: "April 2025 – Present",
+      title: "Social Media Team Head",
+      company: "Digitopedia Association of Presidency University",
+      period: "2024 – Present",
       points: [
-        "Strategic Leadership: Steering the digital vision for the university’s premier marketing club.",
-        "System Integration: Implementing AI automation workflows to streamline club operations and member outreach.",
-        "Mentorship: Overseeing the Social Media, R&D, and PR teams to drive clarity and creative excellence."
+        "Leadership & Execution: Progressed from R&D and PR Team Member (2024-25) to Social Media Team Head, leading strategic content planning, boosted engagement, and cross-functional coordination for campus events.",
+        "Research & Presentation: Presented my co-authored research paper at the National Seminar on “India’s Global Leadership in the 21st Century” at REVA University, Bengaluru.",
+        "Mentorship & Accountability: Serving as Class Representative since the 1st semester, demonstrating consistent leadership, accountability, and strong team collaboration skills."
       ]
     },
     {
-      title: "Social Media Team Head",
-      company: "Digitopedia | Presidency University",
-      period: "September 2024 – April 2025",
+      title: "Personal Projects Handled",
+      company: "Personal Projects",
+      period: "2023 – Present",
       points: [
-        "Content Architecture: Managed a 1 year 6 month tenure focused on increasing brand trust and visibility.",
-        "Engagement Growth: Leveraged Canva and DaVinci Resolve to produce high-retention video content and graphics."
+        "Content Strategy & SEO: Built and managed multiple hands-on digital projects, including Explainur.com, developing 30+ SEO-optimized blogs. Created and published numerous explainer videos.",
+        "Video Production & Growth: Designed end-to-end 350+ educational videos (Achibition) and 108 AI Generated Motivational songs (Melodio), gaining practical exposure in content creation process, video production, and growth experimentation.",
+        "Web Design & Tools: While creating various websites worked extensively with WordPress (CMS) using Elementor & Divi to build UI, and Plugins like RankMath SEO, Google Site Kit, WooCommerce, and created various AI-based videos and content. Developed strong working knowledge of Canva, Filmora, DaVinci Resolve, Ahrefs, SEMrush, and VidIQ.",
+        "Continuous Learning: An enthusiastic quick learner who actively experiments, applies concepts in real-world projects, and continuously refines skills through hands-on execution."
       ]
     }
   ];
@@ -38,14 +40,14 @@ export default function Experience() {
 
         <div className="grid gap-8">
           {positions.map((pos, idx) => (
-            <div 
+            <div
               key={idx}
               className="glass-card p-8 md:p-12 rounded-2xl relative overflow-hidden group border-primary/10 hover:border-primary/30 transition-all duration-500"
             >
               <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                 <Briefcase size={120} />
               </div>
-              
+
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
                 <div className="lg:col-span-4 space-y-4">
                   <Badge variant="outline" className="text-primary border-primary/30 py-1 px-4 text-xs tracking-widest uppercase">
@@ -58,15 +60,21 @@ export default function Experience() {
                   </div>
                   <p className="text-lg font-semibold text-secondary">{pos.company}</p>
                 </div>
-                
+
                 <div className="lg:col-span-8 space-y-6">
                   <div className="grid gap-4">
                     {pos.points.map((point, pIdx) => (
                       <div key={pIdx} className="flex gap-4 items-start group/point">
                         <CheckCircle2 className="w-6 h-6 text-primary mt-1 shrink-0 group-hover/point:scale-110 transition-transform" />
                         <p className="text-muted-foreground leading-relaxed text-lg">
-                          <span className="text-foreground font-bold">{point.split(':')[0]}:</span>
-                          {point.split(':')[1]}
+                          {point.includes(':') ? (
+                            <>
+                              <span className="text-foreground font-bold">{point.split(':')[0]}:</span>
+                              {point.substring(point.indexOf(':') + 1)}
+                            </>
+                          ) : (
+                            point
+                          )}
                         </p>
                       </div>
                     ))}
