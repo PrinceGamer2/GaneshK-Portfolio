@@ -35,6 +35,7 @@ export default function Home() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
+      const winHeight = window.innerHeight;
       // Calculate total pixels available for scrubbing in the intro container
       let totalScrubPx = 0;
       if (sectionRef.current) {
@@ -76,7 +77,7 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative min-h-screen">
+    <main className="relative min-h-screen overflow-x-hidden">
       <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/5 bg-background/50 backdrop-blur-xl transition-all">
         <div className="container mx-auto px-6 py-6 flex items-center justify-between">
           <div className="text-2xl font-black tracking-tighter uppercase relative z-50">
@@ -166,8 +167,11 @@ export default function Home() {
           <Contact />
         </div>
 
-        <footer className="py-12 border-t border-white/5 text-center text-muted-foreground text-xs font-mono tracking-widest uppercase">
-          Built with Precision • 2025
+        <footer className="py-12 border-t border-white/5 flex flex-col items-center gap-4 text-center text-muted-foreground text-xs font-mono tracking-widest uppercase">
+          <div className="flex items-center gap-6 mb-2">
+            <a href="https://www.linkedin.com/in/prince-ganesh/" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">LinkedIn</a>
+          </div>
+          <div>Built with Precision • 2025</div>
         </footer>
       </div>
     </main>
