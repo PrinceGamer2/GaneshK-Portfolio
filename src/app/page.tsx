@@ -18,25 +18,30 @@ export default function Home() {
   const [isHeroVisible, setIsHeroVisible] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [scrollPromptStatus, setScrollPromptStatus] = useState<'initial' | 'hidden' | 'continue'>('initial');
+  const [trackHeight, setTrackHeight] = useState("300vh");
 
   const sectionRef = useRef<HTMLElement>(null);
 
-  // The total scroll distance for the sticky intro section (in vh)
-  // Reduced to 300vh to make the overall sequence tighter
-  const INTRO_SCROLL_HEIGHT = 300;
+  // The total scroll distance for the sticky intro section
   // Percentage of the scroll height dedicated to the background frame animation
-  // 0.66 of 300vh is 200vh, keeping the animation speed consistent but halving the hold distance
+  // 0.66 keeps the animation speed consistent but halving the hold distance
   const ANIMATION_END_THRESHOLD = 0.66;
+
+  // Lock the height to exact pixels on mount so mobile address bar hiding doesn't cause jumpy scroll recalculations
+  useEffect(() => {
+    setTrackHeight(`${window.innerHeight * 3}px`);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const winHeight = window.innerHeight;
-
       // Calculate total pixels available for scrubbing in the intro container
-      let totalScrubPx = (INTRO_SCROLL_HEIGHT * winHeight) / 100 - winHeight;
+      let totalScrubPx = 0;
       if (sectionRef.current) {
+        // Use exact DOM height minus window height for mathematically perfect scroll completion
         totalScrubPx = sectionRef.current.getBoundingClientRect().height - winHeight;
+      } else {
+        totalScrubPx = (300 * winHeight) / 100 - winHeight;
       }
 
       if (totalScrubPx > 0) {
@@ -119,7 +124,7 @@ export default function Home() {
       <section
         ref={sectionRef}
         className="relative"
-        style={{ height: `${INTRO_SCROLL_HEIGHT}dvh` }}
+        style={{ height: trackHeight }}
       >
         <div className="sticky top-0 h-[100dvh] w-full overflow-hidden z-10">
           <ParallaxBackground scrubProgress={animProgress} />

@@ -35,7 +35,7 @@ export default function CertificateShowcase() {
     const [selectedCert, setSelectedCert] = useState<{ name: string; file: string } | null>(null);
 
     return (
-        <section className="py-20 container mx-auto px-6 relative" id="certificate-showcase">
+        <section className="py-20 container mx-auto px-6 relative overflow-hidden" id="certificate-showcase">
             {/* Background Decorator */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/5 rounded-full blur-[120px] pointer-events-none -z-10" />
 
@@ -96,11 +96,17 @@ export default function CertificateShowcase() {
                         <img
                             src={`/certificates/${selectedCert.file}`}
                             alt={selectedCert.name}
-                            className="max-w-full max-h-[85vh] object-contain rounded-lg border border-white/10 shadow-2xl"
+                            className="max-w-full max-h-[75vh] object-contain rounded-lg border border-white/10 shadow-2xl"
                         />
                         <p className="mt-4 text-lg font-bold text-center text-white">
                             {selectedCert.name}
                         </p>
+                        <button
+                            className="mt-6 px-8 py-2.5 bg-background border border-primary/50 text-white hover:bg-primary hover:text-white rounded-full transition-all font-bold tracking-widest uppercase text-xs shadow-lg"
+                            onClick={() => setSelectedCert(null)}
+                        >
+                            Close Preview
+                        </button>
                     </div>
                 </div>
             )}
